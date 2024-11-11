@@ -36,23 +36,25 @@ open Pp
 
 (** Functions that pick names for things. *)
 module CN_Names = struct
-  let var_name x = Sym.pp_string x ^ "_" ^ string_of_int (Sym.num x)
+  let quote = Simple_smt.quote_symbol
+
+  let var_name x = quote (Sym.pp_string x ^ "_" ^ string_of_int (Sym.num x))
 
   let named_expr_name = "_cn_named"
 
-  let uninterpreted_name x = Sym.pp_string x ^ "_" ^ string_of_int (Sym.num x)
+  let uninterpreted_name x = quote (Sym.pp_string x ^ "_" ^ string_of_int (Sym.num x))
 
-  let struct_name x = Sym.pp_string x ^ "_" ^ string_of_int (Sym.num x)
+  let struct_name x = quote (Sym.pp_string x ^ "_" ^ string_of_int (Sym.num x))
 
-  let struct_con_name x = Sym.pp_string x ^ "_" ^ string_of_int (Sym.num x)
+  let struct_con_name x = quote (Sym.pp_string x ^ "_" ^ string_of_int (Sym.num x))
 
-  let struct_field_name x = Id.pp_string x ^ "_struct_fld"
+  let struct_field_name x = quote (Id.pp_string x ^ "_struct_fld")
 
-  let datatype_name x = Sym.pp_string x ^ "_" ^ string_of_int (Sym.num x)
+  let datatype_name x = quote (Sym.pp_string x ^ "_" ^ string_of_int (Sym.num x))
 
-  let datatype_con_name x = Sym.pp_string x ^ "_" ^ string_of_int (Sym.num x)
+  let datatype_con_name x = quote (Sym.pp_string x ^ "_" ^ string_of_int (Sym.num x))
 
-  let datatype_field_name x = Id.pp_string x ^ "_data_fld"
+  let datatype_field_name x = quote (Id.pp_string x ^ "_data_fld")
 end
 
 (** Names for constants that may be uninterpreted.  See [bt_uninterpreted] *)
@@ -204,7 +206,7 @@ let fresh_name s x =
   let n = !(s.name_seed) in
   s.name_seed := n + 1;
   let res = x ^ "_" ^ string_of_int n in
-  res
+  Simple_smt.quote_symbol res
 
 
 (** Declare an uninterpreted function. *)
